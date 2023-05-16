@@ -15,4 +15,3 @@ export default class ContentBoard {
     contentBoard.append(taskBoard);
   }
 }
-

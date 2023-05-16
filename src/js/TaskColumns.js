@@ -76,4 +76,3 @@ export default class TaskColumns {
     columnHeaderDone.append(contextButtonDone);
   }
 }
-

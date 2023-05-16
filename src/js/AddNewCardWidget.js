@@ -40,4 +40,3 @@ export default class AddNewCardWidget {
     widgetFooterBlock.append(newCardWidgetContext);
   }
 }
-
