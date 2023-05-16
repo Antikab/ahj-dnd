@@ -1,30 +1,29 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const LicensePlugin = require('webpack-license-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  target: 'web',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'app.bundle.js',
+    publicPath: '',
   },
-  mode: 'production',
   module: {
     rules: [
       {
-        test: /\.png/,
-        type: 'asset/resource',
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
       },
       {
-        test: /\.js/,
-        use: 'babel-loader',
-      },
-      {
-        test: /\.txt$/,
-        type: 'asset/source',
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -32,29 +31,24 @@ module.exports = {
           MiniCssExtractPlugin.loader, 'css-loader',
         ],
       },
+      {
+        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+        type: "asset/resource",
+      },
+      {
+        test: /\.svg$/,
+        type: 'asset/resource',
+      },
     ],
   },
   plugins: [
-    new HtmlWebPackPlugin(
-      {
-        template: './src/index.html',
-        filename: './index.html',
-      },
-    ),
-    new MiniCssExtractPlugin(
-      {
-        filename: '[name].css',
-      },
-    ),
-    new CleanWebpackPlugin(),
-    new LicensePlugin(),
+    new HtmlWebPackPlugin({
+      template: './src/index.html',
+      filename: './index.html',
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
   ],
-  optimization: {
-    minimizer: [new TerserPlugin({
-      extractComments: true,
-    })],
-  },
-  devServer: {
-    port: 9000,
-  },
 };
