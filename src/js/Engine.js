@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-shadow */
 import AddNewCardWidget from './AddNewCardWidget';
 import CardCreator from './CardCreator';
 import Popuper from './Popuper';
@@ -50,6 +52,7 @@ export default class Engine {
       if (!event.target.classList.contains('card-window')) {
         return;
       }
+      // eslint-disable-next-line func-names
       event.target.ondragstart = function () {
         return false;
       };
